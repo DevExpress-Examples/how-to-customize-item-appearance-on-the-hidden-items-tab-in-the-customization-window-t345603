@@ -1,0 +1,61 @@
+﻿<Window x:Class="ShowHiddenItemsAsTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShowHiddenItemsAsTree"
+        xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+        xmlns:dxdve="http://schemas.devexpress.com/winfx/2008/xaml/docking/visualelements"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.Resources>
+            <HierarchicalDataTemplate x:Key="itemTemplate">
+                <dxdve:HiddenItem />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}" x:Key="groupTemplate">
+                <dxdve:HiddenItem />
+            </HierarchicalDataTemplate>
+            <local:HiddenItemTemplateSelector x:Key="hiddenItemTemplateSelector" ItemTemplate="{StaticResource itemTemplate}" GroupTemplate="{StaticResource groupTemplate}" />
+            <Style TargetType="dxdve:HiddenItemsPanel">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <TreeView ItemTemplateSelector="{StaticResource hiddenItemTemplateSelector}">
+                                <TreeView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
+                            </TreeView>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <dxd:DockLayoutManager>
+            <dxd:LayoutGroup>
+                <dxd:LayoutGroup Orientation="Vertical">
+                    <dxd:LayoutGroup GroupBorderStyle="GroupBox" Caption="Groupbox1" ShowCaption="True" Orientation="Vertical">
+                        <dxd:LayoutControlItem Caption="Item1">
+                            <TextBox />
+                        </dxd:LayoutControlItem>
+                        <dxd:LayoutControlItem Caption="Item2">
+                            <TextBox />
+                        </dxd:LayoutControlItem>
+                    </dxd:LayoutGroup>
+                </dxd:LayoutGroup>
+            </dxd:LayoutGroup>
+            <dxd:DockLayoutManager.HiddenItems>
+                <dxd:LayoutGroup GroupBorderStyle="GroupBox" Caption="Groupbox2" ShowCaption="True" Orientation="Vertical">
+                    <dxd:LayoutControlItem Caption="Item3">
+                        <TextBox />
+                    </dxd:LayoutControlItem>
+                    <dxd:LayoutControlItem Caption="Item4">
+                        <TextBox />
+                    </dxd:LayoutControlItem>
+                </dxd:LayoutGroup>
+            </dxd:DockLayoutManager.HiddenItems>
+        </dxd:DockLayoutManager>
+    </Grid>
+</Window>
